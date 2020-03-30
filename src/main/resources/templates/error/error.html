@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>error</title>
+</head>
+<body>
+
+    <div style="font-family: Consolas;font-size: small">
+        <p th:utext="'Failed Request URL : ' + ${url}" ></p>
+        <p th:utext="'Exception message : ' + ${exception.message}"></p>
+        <ul th:remove="tag">
+            <li th:each="st: ${exception.stackTrace}" style="list-style: none">
+                <span th:utext=" '&emsp;&emsp;&emsp;&emsp;' + ${st}"></span>
+            </li>
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+
+#远程生产环境
+server:
+  port: 80 #tomcat端口
+  servlet:
+    context-path: /blog #应用上下文路径

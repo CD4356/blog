@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.blog.dao.CommentDao">
+
+    <!--添加评论-->
+    <insert id="insertComment" keyColumn="comment_id" keyProperty="commentId" useGeneratedKeys="true" parameterType="Comment">
+        INSERT INTO t_comment
+        (
+          nick_name,
+          email,
+          avatar,
+          content,
+          create_time,
+          blog_id,
+          parent_id
+        )
+        VALUES
+        (
+          #{nickName},
+          #{email},
+          #{avatar},
+          #{content},
+          #{createTime},
+          #{blog.blogId},
+          #{parent.commentId}
+        )
+    </insert>
+
+    <resultMap id="comment" type="Comment">
+        <id column="comment_id" property="commentId"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <association property="parent" column="parent_id" javaType="Comment">
+            <id column="comment_id" property="commentId"/>
+            <result column="nick_name" property="nickName"/>
+        </association>
+    </resultMap>
+
+    <!--根据评论id获取指定评论信息-->
+    <select id="queryCommentById" parameterType="Integer" resultType="comment">
+        SELECT
+            comment_id,
+            nick_name,
+            email,
+            avatar,
+            content,
+            create_time
+        FROM
+            t_comment
+        WHERE
+            comment_id = #{commentId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!--根据父级评论id获取子级评论列表-->
+    <select id="queryCommentByParentId" parameterType="Integer" resultType="comment">
+        SELECT
+            comment_id,
+            nick_name,
+            email,
+            avatar,
+            content,
+            create_time
+        FROM
+            t_comment
+        WHERE
+            parent_id = #{commentId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!--获取父级评论的昵称-->
+    <select id="queryParentNickName" parameterType="Integer" resultType="String">
+        SELECT
+            nick_name
+        FROM
+            t_comment
+        <where>
+            <if test="parentId != null">
+                comment_id = #{parentId}
+            </if>
+        </where>
+    </select>
+
+    <!--获取指定博客的评论列表-->
+    <select id="queryCommentListByBlogId" parameterType="Integer" resultType="comment">
+        SELECT
+            comment_id,
+            nick_name,
+            email,
+            avatar,
+            content,
+            create_time
+        FROM
+            t_comment
+        WHERE
+            blog_id = #{blogId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!--获取指定博客的评论列表-->
+    <select id="queryCommentListByBlogIdAndParentIdNull" parameterType="Integer" resultType="comment">
+        SELECT
+            comment_id,
+            nick_name,
+            email,
+            avatar,
+            content,
+            create_time
+        FROM
+            t_comment
+        WHERE
+            blog_id = #{blogId}
+        AND
+            parent_id IS NULL
+        ORDER BY
+            create_time DESC
+    </select>
+
+</mapper>

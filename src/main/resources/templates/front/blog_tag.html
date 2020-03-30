@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org"> <!-- xmlns:th="http://www.thymeleaf.org" --><!-- xmlns:th="http://www.w3.org/1999/xhtml" -->
+<head th:replace="front/_fragment :: head(~{::title})">
+    <meta charset="UTF-8">
+    <!--响应式设计-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签-落叶无痕</title>
+    <link rel="shortcut icon" href="../image/favicon.ico"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <!--动画-->
+    <link rel="stylesheet" href="../css/animate.css">
+    <!--particles超酷炫粒子背景-->
+    <link rel="stylesheet" href="../lib/particles/style.css">
+    <!--引用外部css样式-->
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <!--超酷炫粒子背景容器-->
+    <div id="particles-js"></div>
+
+    <!--导航栏-->
+    <nav th:replace="front/_fragment :: menu(3)"></nav>
+
+    <!--GitHub角标-->
+    <a href="https://github.com/CD4356" target="_blank" class="ui large red left corner rounded label cd-github-fixed cd-github-shadow">
+        <i class="ui github icon" style="color: rgb(0,0,0);size: 2em"></i>
+    </a>
+
+    <!--中间内容-->
+    <div class="ui cd-container-small cd-margin-big cd-pended-tb-big">
+        <div class="ui container">
+            <!--分类标签head-->
+            <div class="ui green top attached segment">
+                <div class="ui middle aligned two column grid">
+                    <div class="ui column">
+                        <h3 class="ui teal header">标签</h3>
+                    </div>
+                    <div class="right aligned column">
+                        共 <h2 class="ui orange header cd-inline-block" th:text="${tags.size()}"> 14 </h2> 个
+                    </div>
+                </div>
+            </div>
+            <!--分类标签content-->
+            <div class="ui attached white inverted segment cd-opacity">
+                <div class="animated bounceInRight">
+                    <a href="#" th:href="@{/blog_tag/{id}(id=${tag.tagId})}" th:classappend="${tag.tagId==activeTagId} ? 'green'"  th:each="tag : ${tags}" class="ui basic label left pointing cd-margin-min cd-font">
+                        <b>
+                            <span th:text="${tag.tagName}">Spring</span>
+                            <i class="detail cd-num-color" th:text="${tag.num}">8</i>
+                        </b>
+                    </a>
+                </div>
+            </div>
+
+            <!--水平分隔线-->
+            <br><div class="ui small green horizontal divider header">文章列表</div><br>
+
+            <!--分类文章列表-->
+            <div class="ui attached segment">
+                <!--每篇文章-->
+                <div th:each="blog : ${pageInfo.list}" class="ui segment padded vertical cd-pended-tb-large cd-mobile-padded-lr-responsive animated zoomInUp">
+                    <div class="ui middle aligned stackable mobile reversed grid cd-font">
+                        <div class="eleven wide column">
+                            <h4 class="ui header">
+                                <span class="ui orange small label cd-font" th:classappend="${blog.flag=='原创'} ? orange : green" th:text="${blog.flag}">文章标识</span>
+                                <a href="" target="_blank" class="cd-black" th:href="@{/blog/{id}(id=${blog.blogId})}" th:text="${blog.title}">你真的理解什么是财富自由吗？</a>
+                            </h4>
+                            <p class="cd-text" th:text="${blog.description}">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
+                            <div class="ui stackable grid" style="margin-bottom: 0px !important;">
+                                <div class="fifteen wide column">
+                                    <div class="ui small horizontal link list small">
+                                        <!--作者头像和昵称-->
+                                        <div class="item">
+                                            <img th:src="@{${blog.user.userImg}}" src="https://picsum.photos/id/1022/367/267" class="ui avatar image">
+                                            <div class="content">
+                                                <a href="" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank"><span class="cd-font" style="color: #009900;font-weight: bold !important;" th:text="${blog.user.nickName}">海底世界</span></a>
+                                            </div>
+                                        </div>
+                                        <!--创建时间-->
+                                        <div class="item">
+                                            <i class="calendar icon"  style="color: #2C7EEA"></i><span class="cd-font" th:text="${#dates.format(blog.createTime,'yyyy-MM-dd hh:mm')}">2020-02-18</span>
+                                        </div>
+                                        <!--浏览次数-->
+                                        <div class="item">
+                                            <i class="eye icon" style="color: #2C7EEA"></i><span class="cd-font" th:text="${blog.views}">325</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="ui five wide column right aligned">-->
+                                <!--<a href="" target="_blank">-->
+                                <!--<span th:text="${blog.type.typeName}" class="ui mini grey basic label cd-font cd-padded-min">Spring Boot</span>-->
+                                <!--</a>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <!--文章首图-->
+                        <div class="five wide column">
+                            <a href="#" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank">
+                                <img th:src="@{${blog.firstPicture}}" src="https://picsum.photos/id/1025/367/267" class="ui rounded image">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--分页-->
+            <div class="ui attached segment bottom" th:if="${pageInfo.pages} > 1">
+                <div class="ui middle aligned two column grid">
+                    <div class="ui column">
+                        <a href="#" th:href="@{'/blog_tag/'+${activeTagId}(pageNum=${pageInfo.pageNum}-1)}" th:unless="${pageInfo.isFirstPage}"  class="ui mini teal basic button">上一页</a>
+                    </div>
+                    <div class="right aligned column">
+                        <a href="#" th:href="@{'/blog_tag/'+${activeTagId}(pageNum=${pageInfo.pageNum}+1)}" th:unless="${pageInfo.isLastPage}" class="ui mini teal basic button">下一页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--脚部-->
+    <footer th:replace="front/_fragment :: footer"></footer>
+
+    <!--共用的script片段-->
+    <th:block th:replace="front/_fragment :: script"></th:block>
+    <script>
+        // 移动端中菜单栏的显示与隐藏
+        $('.cd-menu-show_and_hide').click(function () {
+            $('.cd-item').toggleClass('cd-mobile-hide');
+        });
+
+        //菜单栏LoGo图标过渡特效
+        $('.leaf.image')
+            .transition({
+                animation : 'pulse',
+                reverse   : true,
+                interval  : 200
+            })
+            .transition('set looping')
+        ;
+    </script>
+</body>
+</html>

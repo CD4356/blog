@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <!--响应式设计-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}"></title>
+    <!--网站图标-->
+    <link rel="shortcut icon" href="../image/favicon.ico" th:href="@{/image/favicon.ico}"/>
+    <!--semantic ui框架-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <!--markdown编辑器-->
+    <link rel="stylesheet" href="../lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <!--animate动画-->
+    <link rel="stylesheet" href="../css/animate.css" th:href="@{/css/animate.css}">
+    <!--引用外部css样式-->
+    <link rel="stylesheet" href="../css/index.css" th:href="@{/css/index.css}">
+</head>
+<body>
+
+    <!--一级导航栏-->
+    <nav th:fragment="menu(n)" class="ui inverted attached segment cd-padded-tb-mini cd-shadow-small animated bounce" style="z-index: 1 !important;">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu cd-font">
+                <img src="../image/leaf.png" width="61px" class="ui leaf image">
+                <a href="" th:href="@{/admin/blogs}" class="ui item cd-item cd-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="green home icon"></i> 博客</a>
+                <a href="" th:href="@{/admin/types}" class="ui item cd-item cd-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="green idea icon"></i>分类</a>
+                <a href="" th:href="@{/admin/tags}" class="ui item cd-item cd-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="green tags icon"></i> 标签</a>
+                <a href="#" class="ui item cd-item cd-mobile-hide"><i class="green save icon"></i>草稿</a>
+                <div class="ui item dropdown">
+                    <div>
+                        <i class="green picture icon"></i>图片库
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu cd-font" style="background-color: whitesmoke !important;">
+                        <div class="item">
+                            <a href="https://picsum.photos/images" target="_blank">
+                                <i class="green picture icon"></i><span style="color: #009900">首图</span>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="https://www.toptal.com/designers/subtlepatterns/page/50/" target="_blank">
+                                <i class="blue picture icon"></i><span style="color: #2C7EEA">背景图</span>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="https://note.youdao.com/web/#/file/WEB574916b0434db2e797241da4c0f3d329/image/WEBea183d30bffdb6e23062d22f301b43b4/" target="_blank">
+                                <i class="red picture icon"></i><span style="color: #9c3328">有道云图床</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="" th:href="@{/}" class="ui item cd-item cd-mobile-hide"><i class="green leaf icon"></i> 前台首页</a>
+                <div class="ui item right aligned inline dropdown">
+                    <div class="text">
+                        <img class="ui avatar image" src="../image/leaf.png" > <!--th:src="@{${session.user.avatar}}"-->
+                        <span>落叶无痕</span> <!--th:text="${session.user.nickName}"-->
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu cd-font" style="background-color: whitesmoke !important;">
+                        <div class="item">
+                            <a href="">
+                                <i class="ui blue edit icon"></i>
+                                <span style="color: black">作者信息</span>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="" th:href="@{/admin/logout}">
+                                <i class="ui green circle icon"></i>
+                                <span style="color: black">注销登录</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--移动端时，隐藏菜单，并显示菜单按钮-->
+        <a href="#" class="ui black icon button cd-right-top cd-mobile-show cd-menu-show_and_hide">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+
+    <!--二级导航-->
+    <div th:fragment="two_menu(n)" class="ui teal inverted attached pointing menu cd-font">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="" th:href="@{/admin/blogs}" class="item" th:classappend="${n==1} ? 'active'">博客管理</a>
+                <a href="" th:href="@{/admin/blog_publish}" class="item" th:classappend="${n==2} ? 'active'">写博客</a>
+                <a href="#" class="item" th:classappend="${n==3} ? 'active'"><i class="save icon"></i>草稿</a>
+            </div>
+        </div>
+    </div>
+
+    <!--脚部-->
+    <footer th:fragment="footer" class="ui inverted vertical segment cd-pended-tb-large">
+        <div class="ui center aligned container">
+            <div class="ui stackable grid inverted divided cd-text">
+                <!--二维码-->
+                <div class="three wide column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img src="../image/wechat.jpg" th:src="@{/image/wechat.jpg}" class="ui rounded image wechat">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui four wide column cd-opacity">
+                    <h4 class="ui inverted head cd-text-spaced">最新博客</h4>
+                    <div class="ui inverted link list">
+                        <a href="" class="item">semantic-ui文档</a>
+                        <a href="" class="item">semantic-ui文档</a>
+                        <a href="" class="item">semantic-ui文档</a>
+                    </div>
+                </div>
+                <div class="ui four wide column cd-opacity">
+                    <h4 class="ui inverted head cd-text-spaced">联系我</h4>
+                    <div class="ui inverted link list">
+                        <a href="" class="item">semantic-ui文档</a>
+                        <a href="" class="item">semantic-ui文档</a>
+                        <a href="" class="item">semantic-ui文档</a>
+                    </div>
+                </div>
+                <div class="ui five wide column cd-opacity">
+                    <h4 class="ui inverted head cd-text-spaced">关于我</h4>
+                    <p class="cd-text-thin cd-text-spaced cd-opacity">我是一名java从业者，专注于java、mysql、算法、jquery学习，主力是我开发的一个个人博客，我会不定期在这上面分享技术文章和学习心得！</p>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="cd-text cd-opacity-mini">Copyright © 2016 - 2017 Lirenmi Designed by Lirenmi</p>
+        </div>
+    </footer>
+
+    <!-- js脚本 -->
+</body>
+</html>

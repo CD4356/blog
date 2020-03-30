@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.blog.dao.BlogDao">
+
+    <!--配置实体类属性与表字段的关系映射,结果集-->
+    <resultMap id="blog" type="Blog">
+        <!--主键字段用id配置,非主键字段用result配置 【property:实体类属性名,column:表字段名】-->
+        <id column="blog_id" property="blogId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="description" property="description"/>
+        <result column="first_picture" property="firstPicture"/>
+        <result column="flag" property="flag"/>
+        <result column="views" property="views"/>
+        <result column="appreciation" property="appreciation"/>
+        <result column="share_statement" property="shareStatement"/>
+        <result column="comment_status" property="commentStatus"/>
+        <result column="published" property="published"/>
+        <result column="recommend" property="recommend"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="last_edit_time" property="lastEditTime" javaType="java.util.Date"/>
+        <!--关联用户的结果集,用association标签配置-->
+        <!--从文章角度：文章对作者是一对一 -->
+        <!--从作者角度： 作者对文章是一对多 -->
+        <association column="user_id" property="user" javaType="User">
+            <id column="user_id" property="userId"/>
+            <result column="nick_name" property="nickName"/>
+            <result column="user_Img" property="userImg"/>
+        </association>
+        <!--关联分类的结果集,用association标签配置-->
+        <association column="type_id" property="type" javaType="Type">
+            <id column="type_id" property="typeId"/>
+            <result column="type_name" property="typeName"/>
+        </association>
+    </resultMap>
+
+    <!--获取全部博客  法1（左查询）-->
+    <select id="queryBlogs" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.content,
+            b.description,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.appreciation,
+            b.share_statement,
+            b.comment_status,
+            b.published,
+            b.recommend,
+            b.create_time,
+            b.last_edit_time,
+            u.user_id,
+            u.nick_name,
+            t.type_id,
+            t.type_name
+        FROM
+            t_blog b
+        LEFT JOIN t_user u ON b.user_id = u.user_id
+        LEFT JOIN t_type t ON b.type_id = t.type_id
+        ORDER BY
+            b.create_time DESC
+    </select>
+
+    <!--获取全部博客  法2（内查询）-->
+    <!--<select id="queryBlogs" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.content,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.appreciation,
+            b.share_statement,
+            b.comment_status,
+            b.published,
+            b.recommend,
+            b.create_time,
+            b.last_edit_time,
+            u.user_id,
+            u.nick_name,
+            t.type_id,
+            t.type_name
+        FROM
+            t_blog b
+        INNER JOIN
+            t_user u ON (u.user_id = b.user_id)
+        INNER JOIN
+            t_type t ON (t.type_id = b.type_id)
+        ORDER BY
+            b.last_edit_time DESC
+    </select>-->
+
+    <!--获取全部博客  法3（条件关联查询）-->
+    <!--<select id="queryBlogs" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.content,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.appreciation,
+            b.share_statement,
+            b.comment_status,
+            b.published,
+            b.recommend,
+            b.create_time,
+            b.last_edit_time,
+            u.user_id,
+            u.nick_name,
+            t.type_id,
+            t.type_name
+        FROM
+            t_blog b,
+            t_user u,
+            t_type t
+        <where>
+            b.user_id = u.user_id
+            AND
+            b.type_id = t.type_id
+        </where>
+        ORDER BY
+            b.last_edit_time DESC
+    </select>-->
+
+    <!--后台根据组合条件来获取博客列表-->
+    <select id="queryBlogList" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.content,
+            b.description,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.appreciation,
+            b.share_statement,
+            b.comment_status,
+            b.published,
+            b.recommend,
+            b.create_time,
+            b.last_edit_time,
+            u.user_id,
+            u.nick_name,
+            u.user_img,
+            t.type_id,
+            t.type_name
+        FROM
+            t_blog b,
+            t_user u,
+            t_type t
+        <where>
+            b.user_id = u.user_id
+            AND
+            b.type_id = t.type_id
+            <!--根据标题查询-->
+            <if test="blogCondition != null and blogCondition.title != null">
+                AND b.title LIKE '%${blogCondition.title}%'
+            </if>
+            <!--根据分类id查询-->
+            <if test="blogCondition != null and blogCondition.typeId != null">
+                AND b.type_id = #{blogCondition.typeId}
+            </if>
+            <!--查询推荐文章-->
+            <if test="blogCondition != null and blogCondition.recommend != null">
+                AND b.recommend = #{blogCondition.recommend}
+            </if>
+        </where>
+        ORDER BY
+            b.create_time DESC
+    </select>
+
+    <!--根据博客id查询博客信息，用于渲染在编辑博客页面-->
+    <select id="queryBlogById" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.content,
+            b.description,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.appreciation,
+            b.share_statement,
+            b.comment_status,
+            b.published,
+            b.recommend,
+            b.create_time,
+            b.last_edit_time,
+            u.user_id,
+            u.nick_name,
+            u.user_img,
+            t.type_id,
+            t.type_name
+        FROM
+            t_blog b
+        LEFT JOIN t_user u ON b.user_id = u.user_id
+        LEFT JOIN t_type t ON b.type_id = t.type_id
+        WHERE blog_id = #{blogId}
+    </select>
+
+    <!--新增博客-->
+    <insert id="insertBlog" keyColumn="blog_id" keyProperty="blogId" useGeneratedKeys="true" parameterType="Blog">
+        INSERT INTO t_blog
+        (
+          title, content, description, first_picture, flag, views,
+          appreciation, share_statement, comment_status, published,
+           recommend, create_time, last_edit_time, user_id, type_id
+        )
+        VALUES
+        (
+          #{title}, #{content}, #{description}, #{firstPicture}, #{flag}, #{views},
+          #{appreciation}, #{shareStatement}, #{commentStatus}, #{published},
+          #{recommend}, #{createTime}, #{lastEditTime}, #{user.userId}, #{type.typeId}
+        )
+    </insert>
+
+    <!--修改博客信息-->
+    <update id="updateBlog" parameterType="Blog">
+        UPDATE t_blog
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="firstPicture != null">first_picture = #{firstPicture},</if>
+            <if test="flag != null">flag = #{flag},</if>
+            <if test="views != null">views = #{views},</if>
+            <if test="appreciation != null">appreciation = #{appreciation},</if>
+            <if test="shareStatement != null">share_statement = #{shareStatement},</if>
+            <if test="commentStatus != null">comment_status = #{commentStatus},</if>
+            <if test="published != null">published = #{published},</if>
+            <if test="recommend != null">recommend = #{recommend},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastEditTime != null">last_edit_time = #{lastEditTime},</if>
+            <if test="type != null">type_id = #{type.typeId}</if>
+        </set>
+        WHERE blog_id = #{blogId}
+    </update>
+
+    <!--删除博客信息-->
+    <delete id="deleteBlog" parameterType="Integer">
+        DELETE FROM t_blog WHERE blog_id = #{blogId}
+    </delete>
+
+
+    <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+    <!--前台首页博客列表-->
+    <select id="queryPublishedBlog" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.description,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.create_time,
+            u.user_id,
+            u.nick_name,
+            u.user_img,
+            t.type_id,
+            t.type_name
+        FROM
+            t_blog b
+        LEFT JOIN t_user u ON b.user_id = u.user_id
+        LEFT JOIN t_type t ON b.type_id = t.type_id
+        WHERE b.published = 1
+        ORDER BY
+            b.create_time DESC
+    </select>
+
+    <!--获取5篇推荐博客用于首页展示-->
+    <select id="query5RecommendBlog" resultMap="blog">
+        SELECT
+            blog_id,
+            title
+        FROM
+            t_blog
+        WHERE
+            published = 1
+        AND
+            recommend = 1
+        ORDER BY
+            create_time DESC limit 5;
+    </select>
+
+    <!--前台根据全局搜索输入的文章标题获取博客列表-->
+    <select id="queryBlogByTitle" resultMap="blog">
+        SELECT
+        b.blog_id,
+        b.title,
+        b.description,
+        b.first_picture,
+        b.flag,
+        b.views,
+        b.create_time,
+        u.user_id,
+        u.nick_name,
+        u.user_img,
+        t.type_id,
+        t.type_name
+        FROM
+        t_blog b,
+        t_user u,
+        t_type t
+        <where>
+            b.user_id = u.user_id
+            AND
+            b.type_id = t.type_id
+            AND
+            b.published = 1
+            <!--根据标题查询-->
+            <if test="blogTitle != null">
+                AND b.title LIKE '%${blogTitle}%'
+            </if>
+        </where>
+        ORDER BY
+        b.create_time DESC
+    </select>
+
+    <!--根据分类id获取所有对应的博客信息-->
+    <select id="queryBlogsByTypeId" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.description,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.appreciation,
+            b.share_statement,
+            b.comment_status,
+            b.published,
+            b.recommend,
+            b.create_time,
+            u.nick_name,
+            u.user_img
+        FROM
+            t_blog b
+        LEFT JOIN t_user u on u.user_id = b.user_id
+        WHERE b.published = 1
+        AND b.type_id = #{typeId}
+    </select>
+
+    <!--根据标签id获取所有对应的博客信息-->
+    <select id="queryBlogsByTagId" resultMap="blog">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.description,
+            b.first_picture,
+            b.flag,
+            b.views,
+            b.create_time,
+            u.nick_name,
+            u.user_img
+        FROM
+            t_tag t,
+            t_blog b,
+            t_user u,
+            t_blog_tag bt
+        WHERE
+            bt.blog_id = b.blog_id
+        AND
+            bt.tag_id = t.tag_id
+        AND
+            b.user_id = u.user_id
+        AND
+            b.published = 1
+        AND
+            t.tag_id = #{tagId}
+    </select>
+
+    <!--根据博客id修改博客的浏览量，每浏览一次该博客，访问量就会+1-->
+    <update id="updateBlogViews" parameterType="Integer">
+        update t_blog set views = views + 1 where blog_id = #{blogId};
+    </update>
+
+    <!--获取已发布博客的浏览次数，用于修改博客内容时使用-->
+    <select id="queryBlogViews" resultType="Integer">
+        SELECT views FROM t_blog where blog_id = #{blogId}
+    </select>
+
+    <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+    <!--分组获取博客的创建日期（精确到月）-->
+    <select id="yearMonths" resultType="String">
+        SELECT
+            date_format(b.create_time, '%Y-%m') AS yearMonth
+        FROM
+            t_blog b
+        WHERE
+            b.published = 1
+        GROUP BY
+            yearMonth
+        ORDER BY
+            yearMonth DESC
+    </select>
+
+    <!--配置实体类属性与表字段的关系映射,结果集-->
+    <resultMap id="blogArchive" type="Blog">
+        <!--主键字段用id配置,非主键字段用result配置 【property:实体类属性名,column:表字段名】-->
+        <id column="blog_id" property="blogId"/>
+        <result column="title" property="title"/>
+        <result column="flag" property="flag"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <!--根据创建日期（精确到月），获取博客列表-->
+    <select id="getBlogsByYearMonth" resultMap="blogArchive">
+        SELECT
+            b.blog_id,
+            b.title,
+            b.flag,
+            b.create_time
+        FROM
+            t_blog b
+        WHERE
+            b.published = 1
+        AND
+            date_format(b.create_time, '%Y-%m') = #{yearMonth}
+        ORDER BY b.create_time DESC
+    </select>
+
+    <!--获取所有已发布博客的数目-->
+    <select id="queryBlogsCount" resultType="Long">
+        SELECT
+            COUNT(1)
+        FROM
+            t_blog
+        WHERE
+            published = 1
+    </select>
+
+</mapper>

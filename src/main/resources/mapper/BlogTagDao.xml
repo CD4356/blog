@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.blog.dao.BlogTagDao">
+
+    <!--批量插入博客和标签信息-->
+    <!-- collection: 指定要遍历的集合
+         item: 保存集合中的每个元素
+         separator: 分隔符,指定两个()圆括号之间的分隔符  如：values(XX.xx,XXX.xxx),(XX.xx,XXX.xxx),(XX.xx,XXX.xxx)-->
+    <insert id="batchInsertBlogTag" parameterType="java.util.List">
+        INSERT INTO t_blog_tag (blog_id,tag_id)
+        VALUES
+        <foreach collection="list" item="blogTag" separator="," index="index">
+            (
+              #{blogTag.blogId},
+              #{blogTag.tagId}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteBlogTag" parameterType="Integer">
+        DELETE FROM t_blog_tag WHERE blog_id = #{blogId}
+    </delete>
+
+    <select id="queryTagsByBlogId" parameterType="Integer" resultType="Tag">
+        SELECT tag_id FROM t_blog_tag WHERE blog_id = #{blogId}
+    </select>
+    
+</mapper>

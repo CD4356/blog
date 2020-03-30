@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.blog.dao.TagDao">
+
+    <select id="queryTagList" resultType="Tag">
+        SELECT * FROM t_tag ORDER BY tag_id
+    </select>
+
+    <select id="queryTagByName" parameterType="String" resultType="Tag">
+        SELECT * from t_tag WHERE tag_name = #{tagName}
+    </select>
+
+    <select id="queryTagById" parameterType="Integer" resultType="Tag">
+        SELECT * from t_tag WHERE tag_id = #{tagId}
+    </select>
+
+    <insert id="insertTag" useGeneratedKeys="true" keyColumn="tag_id" keyProperty="tagId" parameterType="Tag">
+        INSERT INTO t_tag(tag_name) VALUES (#{tagName})
+    </insert>
+
+    <update id="updateTag" parameterType="Tag">
+        UPDATE t_tag SET tag_name = #{tagName} WHERE tag_id = #{tagId}
+    </update>
+
+    <delete id="deleteTag" parameterType="Integer">
+        DELETE FROM t_tag WHERE tag_id = #{tagId}
+    </delete>
+
+
+    <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+    <resultMap id="tags" type="Tag">
+        <id column="tag_id" property="tagId"/>
+        <result column="tag_name" property="TagName"/>
+        <collection property="blogList" ofType="Blog">
+            <id column="blog_id" property="blogId"/>
+            <result column="title" property="title"/>
+        </collection>
+    </resultMap>
+
+    <!--获取所有含有博客的标签，及其每个标签下的文章数量-->
+    <select id="queryAllTag" resultType="Tag">
+        SELECT
+            t.tag_id,
+            t.tag_name,
+            COUNT(*) AS num
+        FROM
+            t_tag t,
+            t_blog b,
+            t_blog_tag bt
+        WHERE t.tag_id = bt.tag_id
+        AND b.blog_id = bt.blog_id
+        AND b.published = 1
+        GROUP BY t.tag_id
+        ORDER BY num DESC
+    </select>
+
+    <!--获取6个博客数最多的标签，及文章数量-->
+    <select id="query6Tag" resultType="Tag">
+        SELECT
+            t.tag_id,
+            t.tag_name,
+            COUNT(*) AS num
+        FROM
+            t_tag t,
+            t_blog b,
+            t_blog_tag bt
+        WHERE t.tag_id = bt.tag_id
+        AND b.blog_id = bt.blog_id
+        AND b.published = 1
+        GROUP BY t.tag_id
+        ORDER BY num DESC
+	    LIMIT 6;
+    </select>
+
+</mapper>

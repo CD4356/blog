@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <!--响应式设计-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}"></title>
+    <!--网站图标-->
+    <link rel="shortcut icon" href="../image/favicon.ico" th:href="@{/image/favicon.ico}"/>
+    <!--semantic ui框架-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <!--typo内容排版-->
+    <link rel="stylesheet" href="../css/typo.css" th:href="@{/css/typo.css}">
+    <!--animate动画-->
+    <link rel="stylesheet" href="../css/animate.css" th:href="@{/css/animate.css}">
+    <!--prism代码高亮-->
+    <link rel="stylesheet" href="../lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <!--tocbot生成目录-->
+    <link rel="stylesheet" href="../lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <!--particles超酷炫粒子背景-->
+    <link rel="stylesheet" href="../lib/particles/style.css" th:href="@{/lib/particles/style.css}">
+    <!--引用外部css样式-->
+    <link rel="stylesheet" href="../css/index.css" th:href="@{/css/index.css}">
+</head>
+<body>
+
+    <!--导航栏-->
+    <nav th:fragment="menu(n)" class="ui inverted attached segment cd-padded-tb-mini cd-shadow-small animated bounce">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu cd-font">
+                <a href="" th:href="@{/admin/blogs}">
+                    <img src="../image/leaf.png" th:src="@{/image/leaf.png}" width="61px" class="ui leaf image">
+                </a>
+                <a href="#" th:href="@{/}" class="item cd-item cd-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="green home icon"></i> 首页</a>
+                <a href="#" th:href="@{/blog_type/-1}" class="item cd-item cd-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="green idea icon"></i> 分类</a>
+                <a href="#" th:href="@{/blog_tag/-1}" class="item cd-item cd-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="green tags icon"></i> 标签</a>
+                <a href="#" th:href="@{/blog_archive}" class="item cd-item cd-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="green clone icon"></i> 归档</a>
+                <a href="#" th:href="@{/blog_plugin}" class="item cd-item cd-mobile-hide" th:classappend="${n==5} ? 'active'"><i class="green paste icon"></i> 插件</a>
+                <a href="#" th:href="@{/about_me}" class="item cd-item cd-mobile-hide" th:classappend="${n==6} ? 'active'"><i class="green info icon"></i> 关于我</a>
+                <a href="#" class="item cd-item cd-mobile-hide cd-particles"><i class="green show icon"></i>粒子背景</a>
+                <div class="right item cd-item cd-mobile-hide">
+                    <form name="blog-search-list" th:action="@{/front/blog_search_list}" method="post" target="_blank" class="ui form">
+                        <div class="ui small icon input inverted">
+                            <input type="text" name="blogTitle" placeholder="搜索" th:value="${blogTitle}">
+                            <i onclick="document.forms['blog-search-list'].submit()" class="search link icon"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--移动端时，隐藏菜单，并显示菜单按钮-->
+        <a href="#" class="ui black icon button cd-right-top cd-mobile-show cd-menu-show_and_hide">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+
+    <!--脚部-->
+    <footer th:fragment="footer" class="ui inverted vertical segment cd-pended-tb-large">
+        <div class="ui container">
+            <div class="ui stackable grid inverted divided cd-text">
+                <!--二维码-->
+                <div class="six wide column center aligned middle aligned">
+                    <div class="ui inverted horizontal link list">
+                        <div class="item">
+                            <img src="../image/qq1.png" th:src="@{/image/qq1.png}" class="ui rounded image qq" style="width: 120px;height: 120px">
+                        </div>
+                        <div class="item">
+                            <img src="../image/wechat.jpg" th:src="@{/image/wechat.jpg}" class="ui rounded image wechat">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui ten wide column cd-opacity" style="padding-left: 4em">
+                    <h4 class="ui fluid inverted cd-text-spaced" style="text-align: center;margin-bottom: 2em">关于我</h4>
+                    2020届毕业生，目前正在找工作（java开发实习岗），有需要者可以联系我
+                    <ul>
+                        </i><li>微信： cmd4356</li>
+                        <li>QQ：   2371481472</li>
+                        <li>邮箱： caidong4356@163.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="cd-text cd-opacity-mini" style="text-align: center;">©2020 落叶无痕 <a href="" th:href="@{caidong4356.top}">caidong4356.top</a></p>
+        </div>
+    </footer>
+
+    <!--Live-2D看板娘模型-->
+    <th:block th:fragment="script">
+        <!--semantic ui框架-->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+        <!--semantic ui框架-->
+        <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+        <!--particles超酷炫粒子背景-->
+        <script src="../lib/particles/particles.min.js" th:src="@{/lib/particles/particles.min.js}"></script>
+        <!--particles超酷炫粒子背景-->
+        <script src="../lib/particles/app.js" th:src="@{/lib/particles/app.js}"></script>
+        <!--点击弹出小红心-->
+        <script src="../lib/love/love.js" th:src="@{/lib/love/love.js}"></script>
+        <!--Live-2D看板娘模型-->
+        <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+        <!--粒子背景的显示与隐藏-->
+        <script>
+            // 粒子背景的显示与隐藏
+            $('.cd-particles').click(function () {
+                $('#particles-js').toggleClass('cd-particles-hide');
+            });
+        </script>
+        <!--Live-2D看板娘模型-->
+        <script type="text/javascript">
+            //Live-2D看板娘模型
+            L2Dwidget.init({
+                model: {
+                    //jsonpath控制显示那个小萝莉模型，下面这个就是我觉得最可爱的小萝莉模型 //hijiki  //izumi //shizuku //koharu
+                    jsonPath: "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json", //这里改模型，前面后面都要改
+                    scale: 1,
+                },
+                display: {
+                    position: "right", //设置看板娘的上下左右位置
+                    width: 120,  //小萝莉的宽度
+                    height: 200, //小萝莉的高度
+                    hOffset: -50,  //水平偏移
+                    vOffset: 200  //垂直偏移
+                },
+                mobile: {
+                    show: false,  //在移动端不显示
+                    scale: 0.4    //移动设备上的缩放
+                },
+                react: {
+                    opacityDefault: 0.9, //设置透明度
+                    opacityOnHover: 0.2
+                },
+            });
+        </script>
+    </th:block>
+
+</body>
+</html>
