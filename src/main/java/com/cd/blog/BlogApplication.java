@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class BlogApplication { //extends SpringBootServletInitializer
 
     //重写对servlet的初始化方法
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
-//        return application.sources(BlogApplication.class);//你的项目启动类名
-//    }
+    /*@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
+        return application.sources(BlogApplication.class);//你的项目启动类名
+    }*/
 
     public static void main(String[] args) {
         SpringApplication.run(BlogApplication.class, args);

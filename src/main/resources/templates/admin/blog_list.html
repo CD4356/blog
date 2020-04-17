@@ -93,22 +93,22 @@
                     </tbody>
                     <!--表底-->
                     <tfoot>
-                    <tr>
-                        <th colspan="7">
-                            <div class="ui pagination mini menu" th:if="${pageInfo.total} > 1">
-                                <span th:text="第 + ${pageInfo.pageNum} + 页" class="item"/>
-                                <a onclick="pageNum(this)" th:attr="data-page=1" th:unless="${pageInfo.isFirstPage}" class="item" >首页</a>
-                                <a onclick="pageNum(this)" th:attr="data-page=${pageInfo.pageNum} - 1" th:unless="${pageInfo.isFirstPage}" class="item">上一页</a>
-                                <a onclick="pageNum(this)" th:attr="data-page=${pageInfo.pageNum} + 1" th:unless="${pageInfo.isLastPage}" class="item">下一页</a>
-                                <a onclick="pageNum(this)" th:attr="data-page=${pageInfo.pages}" th:unless="${pageInfo.isLastPage}" class="item">尾页</a>
-                            </div>
-                            <div class="ui pagination mini menu">
-                                <span th:text="共 + ${pageInfo.pages} + 页" class="item"/>
-                                <span th:text="${pageInfo.total} + 条记录" class="item"/>
-                            </div>
-                            <a href="" th:href="@{/admin/blog_publish}" class="ui basic white small button right floated cd-font">新 增</a>
-                        </th>
-                    </tr>
+                        <tr>
+                            <th colspan="7">
+                                <div class="ui pagination mini menu" th:if="${pageInfo.total} > 1">
+                                    <span th:text="第 + ${pageInfo.pageNum} + 页" class="item"/>
+                                    <a onclick="pageNum(this)" th:attr="data-page=1" th:unless="${pageInfo.isFirstPage}" class="item" >首页</a>
+                                    <a onclick="pageNum(this)" th:attr="data-page=${pageInfo.pageNum} - 1" th:unless="${pageInfo.isFirstPage}" class="item">上一页</a>
+                                    <a onclick="pageNum(this)" th:attr="data-page=${pageInfo.pageNum} + 1" th:unless="${pageInfo.isLastPage}" class="item">下一页</a>
+                                    <a onclick="pageNum(this)" th:attr="data-page=${pageInfo.pages}" th:unless="${pageInfo.isLastPage}" class="item">尾页</a>
+                                </div>
+                                <div class="ui pagination mini menu">
+                                    <span th:text="共 + ${pageInfo.pages} + 页" class="item"/>
+                                    <span th:text="${pageInfo.total} + 条记录" class="item"/>
+                                </div>
+                                <a href="" th:href="@{/admin/blog_publish}" class="ui basic white small button right floated cd-font">新 增</a>
+                            </th>
+                        </tr>
                     </tfoot>
                 </table>
             </div>

@@ -30,4 +30,7 @@ public interface CommentDao {
     //保存评论
     int insertComment(Comment comment);
 
+    //获取所有评论数量，用于前台首页
+    int queryCommentCount();
+
 }

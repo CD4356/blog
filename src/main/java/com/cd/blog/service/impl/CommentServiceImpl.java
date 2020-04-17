@@ -42,6 +42,13 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
+    public int getCommentCount() {
+        return commentDao.queryCommentCount();
+    }
+
+
+
+    @Override
     public List<Comment> getCommentListByBlogIdAndParentIdNull(Integer blogId) {
         //获取顶级(一级)评论节点（即parentId为null的评论）
         List<Comment> comments = commentDao.queryCommentListByBlogIdAndParentIdNull(blogId);

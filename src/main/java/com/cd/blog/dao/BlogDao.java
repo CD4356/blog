@@ -65,4 +65,13 @@ public interface BlogDao {
 
     //获取所有已发布博客的数目
     Long queryBlogsCount();
+
+    //查询总访问量
+    int queryAllViews();
+
+    //上一篇
+    Blog preBlog(Integer blogId);
+
+    //下一篇
+    Blog nextBlog(Integer blogId);
 }

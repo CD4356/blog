@@ -1,22 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"xmlns:th="http://www.thymeleaf.org"> <!-- xmlns:th="http://www.thymeleaf.org" --><!-- xmlns:th="http://www.w3.org/1999/xhtml" -->
-<head th:replace="front/_fragment :: head(~{::title})">
-    <meta charset="UTF-8">
-    <!--响应式设计-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>搜索页</title>
-    <link rel="shortcut icon" href="../image/favicon.ico"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
-    <!--动画-->
-    <link rel="stylesheet" href="../css/animate.css">
-    <!--particles超酷炫粒子背景-->
-    <link rel="stylesheet" href="../lib/particles/style.css">
-    <!--引用外部css样式-->
-    <link rel="stylesheet" href="../css/index.css">
-</head>
+<head th:replace="front/_fragment :: head(title='搜索-落叶无痕')"></head>
 <body>
     <!--超酷炫粒子背景容器-->
-    <div id="particles-js"></div>
+    <!--<div id="particles-js"></div>-->
 
     <!--导航栏-->
     <nav th:replace="front/_fragment :: menu(0)"></nav>
@@ -44,46 +31,36 @@
             <!--分类文章列表-->
             <div class="ui attached cd-margin-top segment">
                 <!--每篇文章-->
-                <div th:each="blog : ${pageInfo.list}" class="ui segment padded vertical cd-pended-tb-large cd-mobile-padded-lr-responsive">
-                    <div class="ui middle aligned stackable mobile reversed grid cd-font">
-                        <div class="eleven wide column">
-                            <h4 class="ui header">
-                                <span class="ui orange small label cd-font" th:classappend="${blog.flag=='原创'} ? orange : green" th:text="${blog.flag}">文章标识</span>
-                                <a href="" target="_blank" class="cd-black" th:href="@{/blog/{id}(id=${blog.blogId})}" th:text="${blog.title}">你真的理解什么是财富自由吗？</a>
-                            </h4>
-                            <p class="cd-text" th:text="${blog.description}">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
-                            <div class="ui stackable grid" style="margin-bottom: 0px !important;">
-                                <div class="fifteen wide column">
-                                    <div class="ui small horizontal link list small">
-                                        <!--作者头像和昵称-->
-                                        <div class="item">
-                                            <img th:src="@{${blog.user.userImg}}" src="https://picsum.photos/id/1022/367/267" class="ui avatar image">
-                                            <div class="content">
-                                                <a href="" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank"><span class="cd-font" style="color: #009900;font-weight: bold !important;" th:text="${blog.user.nickName}">海底世界</span></a>
-                                            </div>
-                                        </div>
-                                        <!--创建时间-->
-                                        <div class="item">
-                                            <i class="calendar icon"  style="color: #2C7EEA"></i><span class="cd-font" th:text="${#dates.format(blog.createTime,'yyyy-MM-dd hh:mm')}">2020-02-18</span>
-                                        </div>
-                                        <!--浏览次数-->
-                                        <div class="item">
-                                            <i class="eye icon" style="color: #2C7EEA"></i><span class="cd-font" th:text="${blog.views}">325</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--<div class="ui five wide column right aligned">-->
-                                <!--<a href="" target="_blank">-->
-                                <!--<span th:text="${blog.type.typeName}" class="ui mini grey basic label cd-font cd-padded-min">Spring Boot</span>-->
-                                <!--</a>-->
-                                <!--</div>-->
-                            </div>
-                        </div>
+                <div th:each="blog : ${pageInfo.list}" class="ui vertical segment cd-padded-large cd-mobile-padded-lr-responsive animated zoomInUp">
+                    <!--文章标题-->
+                    <h3 class="ui header">
+                        <a href="" target="_blank" class="cd-black text-overflow" th:href="@{/blog/{id}(id=${blog.blogId})}" th:text="${blog.title}">文章标题</a>
+                    </h3>
+
+                    <div class="ui stackable grid">
                         <!--文章首图-->
-                        <div class="five wide column">
-                            <a href="#" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank">
-                                <img th:src="@{${blog.firstPicture}}" src="https://picsum.photos/id/1025/367/267" class="ui rounded image">
-                            </a>
+                        <span class="ui four wide column cd-mobile-hide img-box">
+                                    <a href="#" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank">
+                                        <img src="#" th:src="@{${blog.firstPicture}}" class="ui image">
+                                    </a>
+                                </span>
+
+                        <!--文章描述-->
+                        <div class="twelve wide column stackable">
+                            <!--文章描述-->
+                            <span class="ui cd-desc cd-desc-text stackable" style="margin-top: 10px !important;" th:text="${blog.description}">文章描述</span>
+                            <div class="ui stackable" style="margin-top: 33px !important;">
+                                <img th:src="@{/image/athor.png}" class="ui avatar image">
+                                <a href="" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank"><span class="cd-black" th:text="${blog.user.nickName}">海底世界</span></a>
+                                <span>&nbsp;|&nbsp;</span>
+                                <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd hh:mm')}">2020-02-18</span>
+                                <span>&nbsp;|&nbsp;</span>
+                                阅读数 <span th:text="${blog.views}">浏览次数</span>
+
+                                <a href="" class="ui right floated mini blue button" th:href="@{/blog/{id}(id=${blog.blogId})}" target="_blank">
+                                    阅读更多
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,21 +77,5 @@
 
     <!--共用的script片段-->
     <th:block th:replace="front/_fragment :: script"></th:block>
-    <script>
-        // 移动端中菜单栏的显示与隐藏
-        $('.cd-menu-show_and_hide').click(function () {
-            $('.cd-item').toggleClass('cd-mobile-hide');
-        });
-
-        //菜单栏LoGo图标过渡特效
-        $('.leaf.image')
-            .transition({
-                animation : 'pulse',
-                reverse   : true,
-                interval  : 200
-            })
-            .transition('set looping')
-        ;
-    </script>
 </body>
 </html>

@@ -18,4 +18,7 @@ public interface CommentService {
 
     //保存评论
     int addComment(Comment comment);
+
+    //获取所有评论数量，用于前台首页
+    int getCommentCount();
 }

@@ -3,7 +3,7 @@ spring:
   #环境切换
   profiles:
     #active: dev   #开发环境
-      active: prod  #生成环境
+    active: prod  #生成环境
 
   #数据源
   datasource:
@@ -11,7 +11,7 @@ spring:
       driverClass: com.mysql.cj.jdbc.Driver #数据库驱动类
       user: caidong        #数据库用户名
       password: 19971211..    #数据库用户密码
-      jdbcUrl: jdbc:mysql://105.201.210.147:3306/blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC  #数据库连接URL
+      jdbcUrl: jdbc:mysql://106.15.201.150:3306/blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC  #数据库连接URL
       #c3p0连接池
       type: com.mchange.v2.c3p0.ComboPooledDataSource  #指定自定义连接池类型，不指定则默认使用hikari
       dataSourceName: dataSource

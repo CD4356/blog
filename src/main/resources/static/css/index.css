@@ -2,7 +2,13 @@
 /*-------------------------------------------------------------------------------------*/
 
 body {
-    background: url("../image/9.png") !important;
+    background: url("../image/11.png") !important;
+    font-family: "Microsoft YaHei", 微软雅黑, sans-serif !important;
+    color: rgb(77, 77, 77) !important;
+    font-weight:400 !important;
+    letter-spacing: 1px !important;
+    font-size:14px !important;
+    line-height: 1.8 !important;
 }
 
 .wechat {
@@ -24,7 +30,7 @@ body {
     padding: 1em !important;
 }
 .cd-padded-large {
-    padding: 2em !important;
+    padding: 1.6em !important;
 }
 .cd-padded-huge {
     padding: 3em !important;
@@ -149,54 +155,28 @@ body {
 
 /*-----------------text文字-------------------------*/
 
-.cd-text {
-    font-weight: 300 !important;
-    letter-spacing: 1px !important;
-    line-height: 1.8 !important;
-}
-
-.cd-toc-text {
-    letter-spacing: 1px !important;
-    line-height: 1.8 !important;
-}
-
-.cd-text-thin {
-    font-weight: 300 !important;
-}
-
-.cd-text-spaced {
-    letter-spacing: 1px !important;
-}
-
-.cd-text-lined {
-    line-height: 1.8 !important;
-}
-
 .cd-opacity {
-    opacity: 0.8 !important;
-}
-
-.cd-opacity-mini {
     opacity: 0.6 !important;
 }
 
 
 /*-----------------font字体-------------------------*/
 
-.cd-font {
-    font-family: Consolas,宋体 !important;
-    font-weight: inherit !important;
-}
+/*.cd-desc-text {*/
+    /*box-sizing: content-box !important;*/
+    /*font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif !important;*/
+    /*color: rgb(77, 77, 77) !important;*/
+    /*font-weight:400 !important;*/
+    /*letter-spacing: 1px !important;*/
+    /*line-height:22px !important;*/
+    /*font-size:14px !important;*/
+/*}*/
 
-.cd-font-bold {
-    font-family: Consolas,宋体 !important;
-    font-weight: bold !important;
-}
 
-.cd-font-small {
-    font-family: Dialog,宋体 !important;
-    font-weight: bold !important;
-}
+/*.img-box :hover img{
+     transition: all 1s ease !important;
+     transform: scale(1.1) !important;
+ }*/
 
 /*-----------------fixed固定-------------------------*/
 
@@ -208,6 +188,11 @@ body {
 
 
 /*-----------------container容器-------------------------*/
+
+.cd-container-huge {
+    max-width: 85em !important;
+    margin: auto !important;
+}
 
 .cd-container-large {
     max-width: 75em !important;
@@ -239,15 +224,16 @@ body {
     color: black !important;
 }
 
-.cd-black:hover{
-    color: #9c3328 !important;
-    opacity: 0.7 !important;
+.cd-red:hover{
+    background-color: rgba(192,192,192,0.5) !important;
+    color: white;
 }
 
-/*.cd-flag {*/
-    /*color: orangered !important;*/
-    /*!*background-color: rgba(255,182,193,0.1) !important;*!*/
-/*}*/
+.cd-black:hover{
+    /*color: #9c3328 !important;*/
+    color: #1E90FF !important;
+    opacity: 0.7 !important;
+}
 
 .cd-blog-type-bg {
     background-color: rgb(220,220,220);
@@ -273,14 +259,6 @@ body {
     box-shadow: 8px 8px 16px rgba(0,0,5,0.2) !important;
 }
 
-
-/*-----------------font字体大小-------------------------*/
-
-.cd-font-size-tiny {
-    font-size: 12px !important;
-}
-
-
 /*-----------------position位置-------------------------*/
 
 .cd-right-top {
@@ -295,9 +273,21 @@ body {
 }
 
 .cd-right-bottom {
-    right: 1% !important;
-    bottom: 4% !important;
+    right: 15% !important;
+    bottom: 45% !important;
 }
+
+.cd-radius{
+    border-radius: 3px;
+}
+
+
+/*.share-statement span {
+    font-size: 13px;
+    padding: 0 0 0 20px;
+    line-height: 20px;
+    color: black;
+}*/
 
 
 /*-----------------display显示-------------------------*/
@@ -318,6 +308,22 @@ body {
     display: none !important;
 }
 
+/*-----------------文本超出部分替换成...显示-------------------------*/
+
+/*文字超过部分显示为省略号*/
+.cd-desc {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important; /*超过三行的内容用省略号...替换*/
+    -webkit-box-orient: vertical !important;
+}
+
+.text-overflow {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important; /*文本不换行，这样超出一行的部分被截取，显示...*/
+}
 
 /*-----------------@media枚举-------------------------*/
 

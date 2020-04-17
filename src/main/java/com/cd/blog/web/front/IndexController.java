@@ -2,10 +2,7 @@ package com.cd.blog.web.front;
 
 import com.cd.blog.dto.QueryBlog;
 import com.cd.blog.entity.Blog;
-import com.cd.blog.service.BlogService;
-import com.cd.blog.service.BlogTagService;
-import com.cd.blog.service.TagService;
-import com.cd.blog.service.TypeService;
+import com.cd.blog.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,8 @@ public class IndexController {
     private TypeService typeService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private CommentService commentService;
 
 
     /* 首页博客列表 */
@@ -45,6 +44,8 @@ public class IndexController {
         model.addAttribute("types", typeService.get6Type());
         model.addAttribute("tags", tagService.get6Tag());
         model.addAttribute("recommend5Blog", blogService.get5RecommendBlog());
+        model.addAttribute("commentCount", commentService.getCommentCount());
+        model.addAttribute("allViews", blogService.getAllViews());
         return "front/index";
     }
 
@@ -53,6 +54,8 @@ public class IndexController {
     @GetMapping("/blog/{id}")
     public String blog(Model model, @PathVariable("id") Integer id){
         model.addAttribute("blog", blogService.getBlogAndConvert(id));
+        model.addAttribute("preBlog", blogService.preBlog(id));
+        model.addAttribute("nextBlog", blogService.nextBlog(id));
         return "front/blog_detail";
     }
 

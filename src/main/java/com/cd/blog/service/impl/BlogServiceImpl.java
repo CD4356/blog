@@ -163,4 +163,18 @@ public class BlogServiceImpl implements BlogService {
         return map;
     }
 
+    @Override
+    public int getAllViews() {
+        return blogDao.queryAllViews();
+    }
+
+    @Override
+    public Blog preBlog(Integer blogId) {
+        return blogDao.preBlog(blogId);
+    }
+
+    @Override
+    public Blog nextBlog(Integer blogId) {
+        return blogDao.nextBlog(blogId);
+    }
 }

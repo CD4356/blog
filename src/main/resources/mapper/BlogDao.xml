@@ -386,7 +386,7 @@
 
     <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
 
-    <!--分组获取博客的创建日期（精确到月）-->
+    <!--分组获取博客的创建日期（精确到月），用于博客归档-->
     <select id="yearMonths" resultType="String">
         SELECT
             date_format(b.create_time, '%Y-%m') AS yearMonth
@@ -409,7 +409,7 @@
         <result column="create_time" property="createTime" javaType="java.util.Date"/>
     </resultMap>
 
-    <!--根据创建日期（精确到月），获取博客列表-->
+    <!--根据创建日期（精确到月），获取博客列表，用于博客归档-->
     <select id="getBlogsByYearMonth" resultMap="blogArchive">
         SELECT
             b.blog_id,
@@ -433,6 +433,26 @@
             t_blog
         WHERE
             published = 1
+    </select>
+
+    <!--查询总访问量-->
+    <select id="queryAllViews" resultType="Integer">
+        SELECT sum(views) AS allViews FROM t_blog
+    </select>
+
+    <resultMap id="preNext" type="Blog">
+        <id column="blog_id" property="blogId"/>
+        <result column="title" property="title"/>
+    </resultMap>
+    
+    <!--上一篇-->
+    <select id="preBlog" parameterType="Integer" resultMap="preNext">
+        SELECT blog_id,title FROM t_blog WHERE blog_id &lt; #{blogId} ORDER BY blog_id DESC limit 1
+    </select>
+
+    <!--下一篇-->
+    <select id="nextBlog" parameterType="Integer" resultMap="preNext">
+        SELECT blog_id,title FROM t_blog WHERE blog_id &gt; #{blogId} ORDER BY blog_id limit 1
     </select>
 
 </mapper>

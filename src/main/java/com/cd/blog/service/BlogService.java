@@ -56,4 +56,13 @@ public interface BlogService {
     /* 博客归档 */
     Map<String, List<Blog>> blogArchive();
 
+    //查询总访问量
+    int getAllViews();
+
+    //上一篇
+    Blog preBlog(Integer blogId);
+
+    //下一篇
+    Blog nextBlog(Integer blogId);
+
 }

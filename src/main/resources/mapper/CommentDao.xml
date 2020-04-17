@@ -119,4 +119,9 @@
             create_time DESC
     </select>
 
+    <!--获取所有评论数量，用于前台首页-->
+    <select id="queryCommentCount" resultType="int">
+        SELECT COUNT(1) AS commentNum FROM t_comment
+    </select>
+
 </mapper>
