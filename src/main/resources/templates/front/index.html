@@ -25,7 +25,7 @@
                         <div th:each="blog : ${pageInfo.list}" class="ui vertical piled raised segment cd-padded-large cd-mobile-padded-lr-responsive animated zoomInUp">
                             <!--文章标题-->
                             <h3 class="ui header">
-                                <a href="" target="_blank" class="cd-black text-overflow" th:href="@{/blog/{id}(id=${blog.blogId})}" th:text="${blog.title}">文章标题</a>
+                                <a href="" target="_blank" class="cd-black" th:href="@{/blog/{id}(id=${blog.blogId})}" th:text="${blog.title}">文章标题</a>
                             </h3>
 
                             <div class="ui stackable grid">
